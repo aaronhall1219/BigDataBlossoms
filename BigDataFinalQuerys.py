@@ -21,7 +21,7 @@ spark.sql("SELECT RDSFCOND AS Road_Conditions, count(*) AS Fatalities FROM fatal
 spark.sql("SELECT YEAR as Year, count(*) AS Fatalities FROM fatalities GROUP BY Year ORDER BY Year DESC LIMIT 1").show()
 
 # Determine how many fatal collisions occurred while driver exceeding the speed limit.
-spark.sql("SELECT SPEEDING AS Speeding, count(*) AS Fatalities FROM fatalities GROUP BY Speeding ORDER BY Fatalities DESC").show()
+spark.sql("""SELECT COALESCE(SPEEDING, 'No') AS Speeding, COUNT(*) AS Fatalities FROM fatalities GROUP BY Speeding ORDER BY Fatalities DESC """).show()
 
 # Determine the count of fatal collisions that occurred while pedestrian crossing the right of way.
 spark.sql("SELECT PEDACT AS Pedestrian_Action_Description, count(*) AS Fatalities FROM fatalities WHERE PEDACT='Crossing with right of way' GROUP BY Pedestrian_Action_Description").show()
